@@ -24,3 +24,5 @@ Imports:
     rlang,
     stringr,
     tibble
+URL: https://github.com/pitt-ptrc/marsrap
+BugReports: https://github.com/pitt-ptrc/marsrap/issues
