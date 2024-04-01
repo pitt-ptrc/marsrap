@@ -1,0 +1,70 @@
+---
+title: "Input files (`.out`) from MARS"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Input files (`.out`) from MARS}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Given a set of medical record numbers (MRNs on newlines in a `file.who`) and a bar-formated extraction query (`file.esp`) pointing to labs or microcultures, MARS will return this:
+
+<img src="images/lb_out.png" width="600" />
+
+<img src="images/lc_out.png" width="600" />
+
+<!-- ![](images/lb_out.png) -->
+<!-- ![](images/lc_out.png) -->
+## Create Project
+
+The first step for setting up the processing pipeline is organizing these files into a directory structure. This will be raw `files.out` in subfolders that correspond to their source in MARS. This includes blood labs (`lb`), microcultures (`lc`), demographics (`mpax`), charges (`charges`), International Classification of Diseases (`icd`).
+
+```{r setup}
+library(marsrap)
+
+create_project(copy_files = TRUE)
+list.files("raw", full.names = TRUE, recursive = TRUE)
+```
+
+## Parse headers and bodies
+
+The the next step uses a `parse.sh` file in the to concatenate headers and bodies and deposit them into another folder. 
+
+```{r eval=TRUE}
+parse_out("raw")
+list.files("prepped")
+```
+
+## Clean 
+
+```{r eval=TRUE}
+clean_dir("prepped")
+```
+
+## Annotate
+
+MARS relies on line order to structure files. To convert to tidy data, we first annotate implicit groupings due to order. 
+
+```{r}
+anno_entry("data/body.arrow")
+```
+
+
+## De-identify
+
+### Labs
+
+```{r}
+deid_head("data/head.arrow")
+deid_acc("data/acc.arrow", crosswalk = "data/crosswalk.arrow")
+deid_bat("data/bat.arrow", crosswalk = "data/crosswalk.arrow")
+
+```
+

@@ -1,0 +1,24 @@
+S_O_H
+20011231LAB789789789PUH1234512345|789789789 PUH 789789789PUH|SMITH JANE L|20011231 0001|LAB|1234123412341234||||CULT||0001231231231|||RLTA||||||||||19200101|||||||||PUH||||||||||||||||||||M||||||||||||||||||
+E_O_H
+
+ACC: M17017017 20011231 00:29 0001231231231 RLTA 031465;PUH
+BAT: GASVP   20011231 00:01 2345234523452345
+DAT: SDES	SPUT
+TXT: SDES:   Sputum
+DAT: SREQ	TRACH
+TXT: SREQ:   TRACH
+DAT: GS  	MOD WBCS ~ MANY GPR ~ RARE YST
+TXT: GS: 	Moderate WBCs present Many Gram Positive Rods Rare Yeast
+DAT: CULT	MOD PSAR ~ MOD PSAR NO2 ~ MOD NRSF
+TXT: CULT:   Moderate Pseudomonas aeruginosa Moderate Pseudomonas aeruginosa No.2 Moderate Normal Respiratory Flora
+DAT: RPT 	FNL ,,,,F
+TXT: RPT:	Final Result 10/04/2017
+DAT: ORG 	MOD PSAR
+TXT: ORG:	Moderate Pseudomonas aeruginosa
+DAT: MTYP	MIC03
+TXT: MTYP:   Microscan MIC-ug/mL
+DAT: AMIK	<=16 ,,,,F ~ SS
+TXT: AMIK:   <=16 Sensitive
+DAT: AZTR	<=4 ,,,,F ~ SS
+TXT: AZTR:   <=4 Sensitive
