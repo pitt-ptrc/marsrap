@@ -20,37 +20,24 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/marsrap)](https://CRAN.R-project.org/package=marsrap)
 <!-- badges: end -->
 
-The goal of marsrap is to ...
+The goal of `marsrap` is to make retrieving raw data (in "bar" format) from the UPMC Medical Archive System (MARS) easier than devising the equivalent query in it's proprietary, arcane, and old query language (ESP). 
 
 ## Installation
 
 You can install the development version of marsrap like so:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+remotes::install_github("pitt-ptrc/marsrap")
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
 
-```{r example}
+```{r example, eval=FALSE}
 library(marsrap)
-## basic example code
+
+create_project(copy_files = TRUE)
+list.files("raw", full.names = TRUE, recursive = TRUE)
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
 
-```{r cars}
-summary(cars)
-```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
-
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.

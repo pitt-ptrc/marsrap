@@ -1,4 +1,60 @@
-#' Annotate Laboratory Data in Arrow Format
+#' Annotate Entry Groups
+#' @importFrom arrow to_duckdb open_dataset to_arrow write_ipc_file
+#' @importFrom dplyr mutate select if_else compute
+#' @importFrom dbplyr window_order
+anno_entry <- function(arrow_lab){
+
+  dir_name <- dirname(arrow_lab)
+  file_name <- basename(arrow_lab)
+
+  arrow_lab |>
+    open_dataset(format = "arrow") |>
+    to_duckdb() |>
+    window_order(src, rowid) |>
+    mutate(entry_grp = if_else(Term == "ACC", 1, 0), .before = 2) |>
+    mutate(entry_grp = cumsum(entry_grp)) |>
+    compute()
+}
+
+#' Annotate Report Groups
+#' @importFrom arrow to_duckdb open_dataset to_arrow write_ipc_file
+#' @importFrom dplyr mutate select if_else compute arrange
+#' @importFrom dbplyr window_order
+anno_report <- function(duck){
+
+  if (!"entry_grp" %in% colnames(duck)) {
+    stop("Please use anno_entry first.")
+  }
+
+  duck |>
+    group_by(entry_grp) |>
+    window_order(rowid) |>
+    mutate(rpt_ind = if_else(Term == "DAT" & Value == "RPT", 1, 0), .before = Term) |>
+    mutate(rpt_ind = cumsum(rpt_ind)) |>
+    mutate(org_ind = if_else(Term == "DAT" & Value == "ORG", 1, 0), .before = Term) |>
+    mutate(org_ind = cumsum(org_ind)) |>
+    group_by(entry_grp, org_ind) |>
+    mutate(mtyp_ind = if_else(Term == "DAT" & Value == "MTYP", 1, 0), .before = Term) |>
+    mutate(mtyp_ind = cumsum(mtyp_ind)) |>
+    arrange(entry_grp, rpt_ind, org_ind, mtyp_ind) |>
+    compute()
+
+  # duck |>
+  #   group_by(entry_grp) |>
+  #   window_order(rowid) |>
+  #   mutate(rpt_ind = if_else(Term == "DAT", Value == "RPT", 1, 0), .before = Term) |>
+  #   mutate(rpt_ind = cumsum(rpt_ind)) |>
+  #   mutate(org_ind = if_else(Term == "DAT", Value == "ORG", 1, 0), .before = Term) |>
+  #   mutate(org_ind = cumsum(org_ind)) |>
+  #   group_by(entry_grp, org_ind) |>
+  #   mutate(mtyp_ind = if_else(Term == "DAT", Value == "MTYP", 1, 0), .before = Term) |>
+  #   mutate(mtyp_ind = cumsum(mtyp_ind)) |>
+  #   compute()
+
+}
+
+
+# Annotate Metadata Groups
 #'
 #' Processes an Arrow table of laboratory data, performing several transformations
 #' and annotations to prepare the data for analysis. This includes converting the
@@ -24,18 +80,14 @@
 #' @importFrom arrow to_duckdb open_dataset to_arrow write_ipc_file
 #' @importFrom dplyr mutate select if_else compute
 #' @importFrom dbplyr window_order
-anno_entry <- function(arrow_lab){
+anno_group <- function(arrow_lab){
 
   dir_name <- dirname(arrow_lab)
   file_name <- basename(arrow_lab)
 
   arrow_lab |>
-    open_dataset(format = "arrow") |>
-    to_duckdb() |>
-    window_order(rowid) |>
-    mutate(entry_grp = if_else(Term == "ACC", 1, 0), .before = 2) |>
-    mutate(entry_grp = cumsum(entry_grp)) |>
-    compute() |>
+    anno_entry() |>
+    anno_report() |>
     arrow::to_arrow() |>
     write_ipc_file(file.path(dir_name, paste0("anno_", file_name)))
 }

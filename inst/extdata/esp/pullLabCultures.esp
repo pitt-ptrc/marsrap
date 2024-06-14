@@ -1,0 +1,5 @@
+mode|direct
+print|file
+conf|blend|true
+search|bar|styp:cult
+view|bar|@LAB

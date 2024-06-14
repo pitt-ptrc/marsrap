@@ -1,0 +1,45 @@
+mode|direct
+conf|rsep|linefeed
+print|file
+search|mpax|
+view|mpax|*
+edit|extract|Account # ........||\n||%s
+edit|insert||
+edit|extract|MRN ..............||\n||%s
+edit|insert||
+edit|extract|Last Adm Date ....||\n||%s
+edit|insert||
+edit|extract|Last Disch Date ..||\n||%s
+edit|insert||
+edit|key|MP0005  ||\n||%s
+edit|insert||
+edit|key|MP0006  ||\n||%s
+edit|insert||
+edit|key|MP0007  ||\n||%s
+edit|insert||
+edit|key|MP0008  ||\n||%s
+edit|insert||
+edit|key|MP0021  ||\n||%s
+edit|insert||
+edit|key|MP0022  ||\n||%s
+edit|insert||
+edit|key|MP0024  ||\n||%s
+edit|insert||
+edit|key|MP0025  ||\n||%s
+edit|insert||
+edit|key|MP0030  ||\n||%s
+edit|insert||
+edit|key|MP0031  ||\n||%s
+edit|insert||
+edit|key|MP0034  ||\n||%s
+edit|insert||
+edit|key|MP0028  ||\n||%s
+edit|insert||
+edit|key|MP0029  ||\n||%s
+edit|insert||
+edit|key|MP0160  ||\n||%s
+edit|insert||
+edit|key|MP0002  ||\n||%s
+
+
+

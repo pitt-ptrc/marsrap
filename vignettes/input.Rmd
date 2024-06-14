@@ -20,8 +20,6 @@ Given a set of medical record numbers (MRNs on newlines in a `file.who`) and a b
 
 <img src="images/lc_out.png" width="600" />
 
-<!-- ![](images/lb_out.png) -->
-<!-- ![](images/lc_out.png) -->
 ## Create Project
 
 The first step for setting up the processing pipeline is organizing these files into a directory structure. This will be raw `files.out` in subfolders that correspond to their source in MARS. This includes blood labs (`lb`), microcultures (`lc`), demographics (`mpax`), charges (`charges`), International Classification of Diseases (`icd`).
@@ -50,10 +48,14 @@ clean_dir("prepped")
 
 ## Annotate
 
-MARS relies on line order to structure files. To convert to tidy data, we first annotate implicit groupings due to order. 
+MARS relies on line order to structure files. To convert to tidy data, we first annotate implicit groupings due to order. We can then organize into "entries", "reports", and for microcultures, "organisms" and "micro type" or `MTYP`.
 
 ```{r}
-anno_entry("data/body.arrow")
+anno_group("data/body.arrow")
+
+open_dataset("data/anno_body.arrow", format = "arrow") |> 
+  collect() |> 
+  filter(src == "fake_bar_culturelab")
 ```
 
 
@@ -61,10 +63,45 @@ anno_entry("data/body.arrow")
 
 ### Labs
 
+#### Meta
+
 ```{r}
 deid_head("data/head.arrow")
+
+open_dataset("data/crosswalk.arrow", format = "arrow") |> collect()
+```
+
+
+```{r}
 deid_acc("data/acc.arrow", crosswalk = "data/crosswalk.arrow")
 deid_bat("data/bat.arrow", crosswalk = "data/crosswalk.arrow")
 
+result <- deid_body_meta("data/anno_body.arrow", crosswalk = "data/crosswalk.arrow")
+  
+result
+```
+
+
+### Text
+
+One step remains for de-identification. Notice that the `Description` may contain PHI.
+
+Text is the worst, because there are relatively few restrictions on the 
+
+```{r}
+result |> 
+  filter(Value == "PCO2VP") |> 
+  select(Description)
+```
+
+We have endeavored to include all possible patterns for free-text PHI like this. In general, the 
+
+
+```{r}
+deid_body_data(result)
+
+deid_body_text(result) |> 
+  filter(Value == "PCO2VP") |> 
+  select(Description)
 ```
 

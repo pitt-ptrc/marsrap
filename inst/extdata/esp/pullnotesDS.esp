@@ -1,0 +1,5 @@
+mode|direct
+print|file
+conf|rsep|linefeed
+search|bar|NNNNNNNNN
+view|bar|@DS

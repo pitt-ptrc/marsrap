@@ -1,0 +1,202 @@
+mode|direct
+conf|rsep|linefeed
+conf|select|core chp
+print|file
+search|mpax|
+view|mpax|*
+edit|extract|Account # ........||\n||%s
+edit|insert||
+edit|extract|MRN ..............||\n||%s
+edit|insert||
+edit|extract|Last Adm Date ....||\n||%s
+edit|insert||
+edit|extract|Last Disch Date ..||\n||%s
+edit|insert||
+edit|key|MP0005  ||\n||%s
+edit|insert||
+edit|key|MP0006  ||\n||%s
+edit|insert||
+edit|key|MP0007  ||\n||%s
+edit|insert||
+edit|key|MP0008  ||\n||%s
+edit|insert||
+edit|key|MP0021  ||\n||%s
+edit|insert||
+edit|key|MP0022  ||\n||%s
+edit|insert||
+edit|key|MP0024  ||\n||%s
+edit|insert||
+edit|key|MP0025  ||\n||%s
+edit|insert||
+edit|key|MP0030  ||\n||%s
+edit|insert||
+edit|key|MP0031  ||\n||%s
+edit|insert||
+edit|key|MP0034  ||\n||%s
+edit|insert||
+edit|key|MP0302  ||\n||%s
+edit|insert||
+edit|key|MP0308  ||\n||%s
+edit|insert||
+edit|key|MP0314  ||\n||%s
+edit|insert||
+edit|key|MP0320  ||\n||%s
+edit|insert||
+edit|key|MP0326  ||\n||%s
+edit|insert||
+edit|key|MP0332  ||\n||%s
+edit|insert||
+edit|key|MP0338  ||\n||%s
+edit|insert||
+edit|key|MP0344  ||\n||%s
+edit|insert||
+edit|key|MP0350  ||\n||%s
+edit|insert||
+edit|key|MP0356  ||\n||%s
+edit|insert||
+edit|key|MP0362  ||\n||%s
+edit|insert||
+edit|key|MP0368  ||\n||%s
+edit|insert||
+edit|key|MP0374  ||\n||%s
+edit|insert||
+edit|key|MP0380  ||\n||%s
+edit|insert||
+edit|key|MP0386  ||\n||%s
+edit|insert||
+edit|key|MP0392  ||\n||%s
+edit|insert||
+edit|key|MP0398  ||\n||%s
+edit|insert||
+edit|key|MP0404  ||\n||%s
+edit|insert||
+edit|key|MP0410  ||\n||%s
+edit|insert||
+edit|key|MP0416  ||\n||%s
+edit|insert||
+edit|key|MP0422  ||\n||%s
+edit|insert||
+edit|key|MP0428  ||\n||%s
+edit|insert||
+edit|key|MP0434  ||\n||%s
+edit|insert||
+edit|key|MP0440  ||\n||%s
+edit|insert||
+edit|key|MP0446  ||\n||%s
+edit|insert||
+edit|key|MP0803  ||\n||%s
+edit|insert||
+edit|key|MP0804  ||\n||%s
+edit|insert||
+edit|key|MP0823  ||\n||%s
+edit|insert||
+edit|key|MP0824  ||\n||%s
+edit|insert||
+edit|key|MP0843  ||\n||%s
+edit|insert||
+edit|key|MP0844  ||\n||%s
+edit|insert||
+edit|key|MP0863  ||\n||%s
+edit|insert||
+edit|key|MP0864  ||\n||%s
+edit|insert||
+edit|key|MP0883  ||\n||%s
+edit|insert||
+edit|key|MP0884  ||\n||%s
+edit|insert||
+edit|key|MP0903  ||\n||%s
+edit|insert||
+edit|key|MP0904  ||\n||%s
+edit|insert||
+edit|key|MP0923  ||\n||%s
+edit|insert||
+edit|key|MP0924  ||\n||%s
+edit|insert||
+edit|key|MP0943  ||\n||%s
+edit|insert||
+edit|key|MP0944  ||\n||%s
+edit|insert||
+edit|key|MP0963  ||\n||%s
+edit|insert||
+edit|key|MP0964  ||\n||%s
+edit|insert||
+edit|key|MP0983  ||\n||%s
+edit|insert||
+edit|key|MP0984  ||\n||%s
+edit|insert||
+edit|key|MP1003  ||\n||%s
+edit|insert||
+edit|key|MP1004  ||\n||%s
+edit|insert||
+edit|key|MP1023  ||\n||%s
+edit|insert||
+edit|key|MP1024  ||\n||%s
+edit|insert||
+edit|key|MP1043  ||\n||%s
+edit|insert||
+edit|key|MP1044  ||\n||%s
+edit|insert||
+edit|key|MP1063  ||\n||%s
+edit|insert||
+edit|key|MP1064  ||\n||%s
+edit|insert||
+edit|key|MP1083  ||\n||%s
+edit|insert||
+edit|key|MP1084  ||\n||%s
+edit|insert||
+edit|key|MP1103  ||\n||%s
+edit|insert||
+edit|key|MP1104  ||\n||%s
+edit|insert||
+edit|key|MP1123  ||\n||%s
+edit|insert||
+edit|key|MP1124  ||\n||%s
+edit|insert||
+edit|key|MP1143  ||\n||%s
+edit|insert||
+edit|key|MP1144  ||\n||%s
+edit|insert||
+edit|key|MP1163  ||\n||%s
+edit|insert||
+edit|key|MP1164  ||\n||%s
+edit|insert||
+edit|key|MP1183  ||\n||%s
+edit|insert||
+edit|key|MP1184  ||\n||%s
+edit|insert||
+edit|key|MP1203  ||\n||%s
+edit|insert||
+edit|key|MP1204  ||\n||%s
+edit|insert||
+edit|key|MP1223  ||\n||%s
+edit|insert||
+edit|key|MP1224  ||\n||%s
+edit|insert||
+edit|key|MP1243  ||\n||%s
+edit|insert||
+edit|key|MP1244  ||\n||%s
+edit|insert||
+edit|key|MP1263  ||\n||%s
+edit|insert||
+edit|key|MP1264  ||\n||%s
+edit|insert||
+edit|key|MP1283  ||\n||%s
+edit|insert||
+edit|key|MP1284  ||\n||%s
+edit|insert||
+edit|key|MP1361  ||\n||%s
+edit|insert||
+edit|key|MP0452  ||\n||%s
+edit|insert||
+edit|key|MP1601  ||\n||%s
+edit|insert||
+edit|key|MP0028  ||\n||%s
+edit|insert||
+edit|key|MP0029  ||\n||%s
+edit|insert||
+edit|key|MP0160  ||\n||%s
+edit|insert||
+edit|key|MP0002  ||\n||%s
+
+
+
