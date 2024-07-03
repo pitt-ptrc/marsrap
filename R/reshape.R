@@ -63,13 +63,22 @@ reshape_lc <- function(ddb){
     lab_dat_rpt |>
     filter(max(org_ind) > 0)
 
-
-  lab_dat_main <-
+  lab_dat_w_meta <-
     lab_dat_w_org |>
     # this should be sufficient, but not due to error
     filter(org_ind == 0) |>
-    select(entry_grp, Value, Description)
+    select(-rowid) |>
+    pivot_wider(names_from = Value, values_from = Description) |>
+    select(entry_grp, any_of(pivot_values_meta), ends_with("h")) |>
+    arrange(entry_grp)
 
-  list(w = lab_dat_w_org, wo = lab_dat_wo_org, main = lab_dat_main)
+  lab_dat_w_res <-
+    lab_dat_w_org |>
+    filter(mtyp_ind > 0) |>
+    filter(Value != "MTYP") |>
+    select(entry_grp, org_ind, mtyp_ind, Value, Description) |>
+    arrange(entry_grp)
+
+  list(wo = lab_dat_wo_org, w_meta = lab_dat_meta, w_res = lab_dat_w_res)
 
 }

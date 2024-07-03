@@ -129,14 +129,9 @@ We have endeavored to include all possible patterns for free-text PHI like this.
 deid_result <- deid_body_data(result)
 
 deid_result |> 
-  collect() |> 
-  View()
-
-deid_result |> 
   filter(Value == "PCO2VP") |> 
   select(Description)
 
-# TODO: unexpected that the PHI is just removed and not that placeholder is added. 
 ```
 
 ## Reshape
@@ -176,14 +171,24 @@ With more understanding, there ratio here seems to be the difference between ide
 reshape_result <- 
   deid_result |> 
   reshape_lc()
+
+reshape_result$w
 ```
 
-We can see the 
+In the records without sensitivity testing, we can note a few things:
+
+1. `acc_id_h` indicates a hospitalization.
+1. `acc_num_h` indicates each lab result requested
+1. `bat_id_h` indicates each time that lab result changes status
+1. `SDES` is the source tissue
+1. `CULT` is the organism tested for (note that here it is "find what you look for")
+1. `CULT` tells a story. `PENDING`, `NMRS1`, `NMRS2` no MRSA day 1, day 2, final. 
+
 ```{r}
 reshape_result$wo
 
 ```
 
-```{r}
-
+```{r include=FALSE}
+cleanup()
 ```

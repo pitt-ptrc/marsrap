@@ -109,3 +109,15 @@ clean_dir <- function(dir, outdir = "data", format = "arrow", .keep = FALSE) {
     unlink(dir, recursive = TRUE)
   }
 }
+
+#' Clean Routine
+#'
+#' For use in docs, removes all files created in RAP.
+#'
+#' @return Invisible NULL. This function is used for its side effects
+cleanup <- function(){
+
+  proc_dirs <- c("raw", "prepped", "data")
+  unlink(proc_dirs, recursive = TRUE)
+
+}
