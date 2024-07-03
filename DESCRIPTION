@@ -23,6 +23,7 @@ Imports:
     readr,
     rlang,
     stringr,
-    tibble
+    tibble,
+    tidyr
 URL: https://github.com/pitt-ptrc/marsrap
 BugReports: https://github.com/pitt-ptrc/marsrap/issues

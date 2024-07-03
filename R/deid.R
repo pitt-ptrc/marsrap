@@ -67,13 +67,13 @@ deid_bat <- function(arrow, crosswalk){
     mutate(bat_id_h = md5(bat_id)) |>
     # duckdb `to_days`
     mutate(date_shift = to_days(date_shift)) |>
-    mutate(bat_date_s = bat_date + date_shift)
+    mutate(bat_date_s = bat_date + date_shift) |>
     # # remove PHI
-    # select(!c(
-    #   date_shift,
-    #   bat_id,
-    #   bat_date
-    # ))
+    select(!c(
+      date_shift,
+      bat_id,
+      bat_date
+    ))
 
 }
 
