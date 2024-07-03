@@ -4,7 +4,7 @@
 \alias{clean_dir}
 \title{Clean Directory and Output Data in Specified Format}
 \usage{
-clean_dir(dir, outdir = "data", format = "arrow")
+clean_dir(dir, outdir = "data", format = "arrow", .keep = FALSE)
 }
 \arguments{
 \item{dir}{The input directory containing the files to be processed.}

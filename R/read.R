@@ -79,10 +79,10 @@ read_outtxt <- function(out.txt, type) {
 #' @importFrom stringr str_extract str_c
 #' @importFrom arrow write_ipc_file
 #' @export
-clean_dir <- function(dir, outdir = "data", format = "arrow") {
+clean_dir <- function(dir, outdir = "data", format = "arrow", .keep = FALSE) {
   # Ensure output directory exists
-  if (!dir.exists("data")) {
-    dir.create("data")
+  if (!dir.exists(outdir)) {
+    dir.create(outdir)
   }
 
   # Process files in the input directory
@@ -103,4 +103,21 @@ clean_dir <- function(dir, outdir = "data", format = "arrow") {
     csv = map2(tbl, names(tbl), ~ write_csv(.x, file.path(outdir, str_c(.y, ".csv")))),
     arrow = map2(tbl, names(tbl), ~ arrow::write_ipc_file(.x, file.path(outdir, str_c(.y, ".arrow"))))
   )
+
+  if(!.keep) {
+    # Remove a directory
+    unlink(dir, recursive = TRUE)
+  }
+}
+
+#' Clean Routine
+#'
+#' For use in docs, removes all files created in RAP.
+#'
+#' @return Invisible NULL. This function is used for its side effects
+cleanup <- function(){
+
+  proc_dirs <- c("raw", "prepped", "data")
+  unlink(proc_dirs, recursive = TRUE)
+
 }

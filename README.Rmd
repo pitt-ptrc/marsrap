@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/marsrap)](https://CRAN.R-project.org/package=marsrap)
 <!-- badges: end -->
 
-The goal of `marsrap` is to make retrieving raw data (in "bar" format) from the UPMC Medical Archive System (MARS) easier than devising the equivalent query in it's proprietary, arcane, and old query language (ESP). 
+The goal of `marsrap` is to make retrieving raw data (in "bar" format) from the UPMC Medical Archive System (MARS) easier than devising the equivalent query in it's proprietary, arcane, and old query language (ESP). It is a [reproducible analytic pipeline](https://raps-with-r.dev/) (RAP).
 
 ## Installation
 
