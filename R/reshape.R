@@ -75,10 +75,11 @@ reshape_lc <- function(ddb){
   lab_dat_w_res <-
     lab_dat_w_org |>
     filter(mtyp_ind > 0) |>
-    filter(Value != "MTYP") |>
+    # filter(Value != "MTYP") |>
+
     select(entry_grp, org_ind, mtyp_ind, Value, Description) |>
     arrange(entry_grp)
 
-  list(wo = lab_dat_wo_org, w_meta = lab_dat_meta, w_res = lab_dat_w_res)
+  list(wo = lab_dat_wo_org, w_meta = lab_dat_w_meta, w_res = lab_dat_w_res)
 
 }

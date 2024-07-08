@@ -112,7 +112,7 @@ clean_dir <- function(dir, outdir = "data", format = "arrow", .keep = FALSE) {
 
 #' Clean Routine
 #'
-#' For use in docs, removes all files created in RAP.
+#' For internal use in docs, removes all files created in RAP.
 #'
 #' @return Invisible NULL. This function is used for its side effects
 cleanup <- function(){

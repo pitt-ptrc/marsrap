@@ -172,7 +172,7 @@ reshape_result <-
   deid_result |> 
   reshape_lc()
 
-reshape_result$w
+reshape_result$w_meta
 ```
 
 In the records without sensitivity testing, we can note a few things:
@@ -185,7 +185,7 @@ In the records without sensitivity testing, we can note a few things:
 1. `CULT` tells a story. `PENDING`, `NMRS1`, `NMRS2` no MRSA day 1, day 2, final. 
 
 ```{r}
-reshape_result$wo
+reshape_result$w_res
 
 ```
 
