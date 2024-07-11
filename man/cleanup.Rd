@@ -10,5 +10,5 @@ cleanup()
 Invisible NULL. This function is used for its side effects
 }
 \description{
-For use in docs, removes all files created in RAP.
+For internal use in docs, removes all files created in RAP.
 }

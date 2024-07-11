@@ -4,7 +4,7 @@
 \alias{reshape_lb}
 \title{Reshape Blood Labs}
 \usage{
-reshape_lb(arrow, crosswalk)
+reshape_lb(ddb)
 }
 \description{
 Reshape Blood Labs
