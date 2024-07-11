@@ -34,7 +34,7 @@ read_delim_barx <- function(out.txt, col_names) {
 read_outtxt <- function(out.txt, type) {
   # Column names for different sections
   head_names <- c("CKSUM", "hosp_info", "name", "datetime", "rec_type", "bat_id", "acc_type", "acc_id", "ward", "dob", "hosp", "sex")
-  acc_names <- c("key", "acc_num", "acc_date", "acc_time", "acc_id", "acc_type", "hosp_info")
+  acc_names <- c("key", "acc_num", "acc_date", "acc_time", "acc_id", "ward", "hosp_info")
   bat_names <- c("key", "bat_type", "bat_date", "bat_time", "bat_id")
   body_names <- c("Term", "Value", "Description")
 
@@ -49,12 +49,21 @@ read_outtxt <- function(out.txt, type) {
       mutate(mrn = str_sub(hosp_info, end = 9L),
              date = as.Date(datetime),
              time = format(datetime, "%H:%M:%S"),
-             bat_id = as.character(bat_id)),
+             bat_id = as.character(bat_id),
+             dob = as.Date(as.character(dob), format = "%Y%m%d")),
     acc = read_table(out.txt, acc_names) |>
-      mutate(acc_date = ymd(acc_date)),
+      mutate(
+        acc_date = ymd(acc_date),
+        acc_dt = as.POSIXct(paste(acc_date, acc_time))
+             ) |>
+      select(-acc_time, -acc_date),
     bat = read_table(out.txt, bat_names) |>
       mutate(bat_id = as.character(bat_id)) |>
-      mutate(bat_date = ymd(bat_date)),
+      mutate(
+        bat_date = ymd(bat_date),
+        bat_dt = as.POSIXct(paste(bat_date, bat_time))
+      ) |>
+      select(-bat_time, -bat_date),
     body = read_delim(out.txt, col_names = body_names, delim = "|") |>
       mutate(Value = str_remove(str_trim(Value), ":"),
              Term = str_remove(Term, ":"),
@@ -112,12 +121,39 @@ clean_dir <- function(dir, outdir = "data", format = "arrow", .keep = FALSE) {
 
 #' Clean Routine
 #'
-#' For use in docs, removes all files created in RAP.
+#' For internal use in docs, removes all files created in RAP.
 #'
 #' @return Invisible NULL. This function is used for its side effects
+#' @export
 cleanup <- function(){
 
-  proc_dirs <- c("raw", "prepped", "data")
+  proc_dirs <- c("raw", "prepped", "data", "deid")
   unlink(proc_dirs, recursive = TRUE)
 
+}
+
+#' @export
+save_duck <- function(duck, dir_name = "mart", file_name, format = c("arrow", "csv")){
+
+  format <- match.arg(format)
+
+  if (format == "arrow"){
+
+    file_name <- paste0(file_name, ".arrow")
+    file_path <- file.path(dir_name, file_name)
+
+    duck |>
+      to_arrow() |>
+      write_ipc_file(file_path)
+
+  } else {
+
+    file_name <- paste0(file_name, ".arrow")
+    file_path <- file.path(dir_name, file_name)
+
+    duck |>
+      write_csv(path = file_path)
+  }
+
+  return(file_path)
 }

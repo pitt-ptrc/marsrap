@@ -33,11 +33,23 @@ remotes::install_github("pitt-ptrc/marsrap")
 ## Example
 
 
-```{r example, eval=FALSE}
+```{r example, eval=TRUE}
 library(marsrap)
 
+# Helper function for demostration
 create_project(copy_files = TRUE)
 list.files("raw", full.names = TRUE, recursive = TRUE)
+
+result_paths <- main_pipeline("raw", clean = FALSE, save = "arrow")
+
+marts <- lapply(result_paths, arrow::read_ipc_file)
+
+marts
 ```
 
+
+```{r include=FALSE, echo=FALSE}
+cleanup()
+unlink("mart")
+```
 
