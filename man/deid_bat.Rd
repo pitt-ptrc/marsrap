@@ -6,6 +6,11 @@
 \usage{
 deid_bat(arrow, crosswalk)
 }
+\arguments{
+\item{arrow}{coherently parsed and PHI data}
+
+\item{crosswalk}{crosswalk containing identifying mappings}
+}
 \description{
 Deid Battery Files
 }

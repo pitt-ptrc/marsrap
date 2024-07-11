@@ -6,6 +6,9 @@
 \usage{
 deid_lab_body_data(duck)
 }
+\arguments{
+\item{duck}{duckdb object}
+}
 \description{
 Deid Body Data of Files
 }

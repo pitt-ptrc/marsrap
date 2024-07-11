@@ -1,4 +1,19 @@
+#' Main Data Processing Pipeline
+#'
+#' This function serves as a wrapper around several internal functions to process and manage data.
+#' It handles raw data parsing, cleaning, anonymization, and saving of processed data in various formats.
+#'
+#' @param dir A character string specifying the directory containing the data to be processed.
+#' @param type A character string indicating the type of data to be processed. Default is "raw".
+#' @param data_type A character string specifying the type of data. Default is "labs".
+#' @param clean A logical value indicating whether to clean up intermediate files. Default is TRUE.
+#' @param save A character vector specifying the format to save the processed data. Options are "arrow" and "csv". Default is NULL.
+#' @param salt A numeric value used for anonymization purposes. Default is 123.
+#'
+#' @return A list containing file paths of saved processed data.
+#'
 #' @export
+#'
 main_pipeline <- function(dir, type = "raw", data_type = "labs", clean = TRUE, save = c(NULL, "arrow", "csv"), salt = 123){
 
   if (type == "raw"){

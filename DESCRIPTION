@@ -16,6 +16,7 @@ RoxygenNote: 7.3.1
 VignetteBuilder: knitr
 Imports: 
     arrow,
+    dbplyr,
     dplyr,
     duckdb,
     lubridate,

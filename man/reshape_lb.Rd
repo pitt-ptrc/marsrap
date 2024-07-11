@@ -4,7 +4,10 @@
 \alias{reshape_lb}
 \title{Reshape Blood Labs}
 \usage{
-reshape_lb(ddb)
+reshape_lb(duck)
+}
+\arguments{
+\item{duck}{A DuckDB object containing laboratory data.}
 }
 \description{
 Reshape Blood Labs

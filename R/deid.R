@@ -1,4 +1,6 @@
 #' Deid Head Files
+#' @param arrow coherently parsed and PHI data
+#' @param save_crosswalk option to save crosswalk containing identifying mappings
 #' @importFrom arrow to_duckdb open_dataset to_arrow write_ipc_file
 #' @importFrom dplyr mutate select compute
 #' @export
@@ -58,6 +60,8 @@ deid_head <- function(arrow, save_crosswalk = TRUE){
 }
 
 #' Deid Battery Files
+#' @param arrow coherently parsed and PHI data
+#' @param crosswalk crosswalk containing identifying mappings
 #' @importFrom arrow to_duckdb open_dataset to_arrow write_ipc_file
 #' @importFrom dplyr mutate select compute left_join distinct collect
 #' @export
@@ -91,6 +95,8 @@ deid_bat <- function(arrow, crosswalk){
 
 
 #' Deid Accession Files
+#' @param arrow coherently parsed and PHI data
+#' @param crosswalk crosswalk containing identifying mappings
 #' @importFrom arrow to_duckdb open_dataset to_arrow write_ipc_file
 #' @importFrom dplyr mutate select compute left_join distinct
 #' @export
@@ -129,7 +135,8 @@ deid_acc <- function(arrow, crosswalk){
 #' Deid Body Metadata of Files
 #'
 #' Unlike other deid_**, here we parse first to get keys to join on.
-#'
+#' @param arrow coherently parsed and PHI data
+#' @param crosswalk crosswalk containing identifying mappings
 #' @importFrom arrow to_duckdb open_dataset to_arrow write_ipc_file
 #' @importFrom dplyr mutate select compute left_join distinct arrange if_else filter
 #' @importFrom dbplyr window_order
@@ -181,7 +188,7 @@ deid_lab_body_meta <- function(arrow, crosswalk){
 #' Deid Body Text of Files
 #'
 #' To be completed
-#'
+#' @param duck duckdb object
 #' @importFrom arrow to_duckdb open_dataset to_arrow write_ipc_file
 #' @importFrom dplyr mutate select compute left_join distinct arrange if_else filter
 #' @importFrom dbplyr window_order
@@ -228,6 +235,7 @@ deid_lab_body_text <- function(duck){
 
 
 #' Deid Body Data of Files
+#' @param duck duckdb object
 #' @importFrom arrow to_duckdb open_dataset to_arrow write_ipc_file
 #' @importFrom dplyr mutate select compute left_join distinct arrange if_else filter
 #' @importFrom dbplyr window_order

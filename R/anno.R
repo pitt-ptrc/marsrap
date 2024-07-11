@@ -1,4 +1,13 @@
-#' Annotate Entry Groups
+#' Annotate Lab Entries
+#'
+#' This function processes an arrow dataset of lab entries, creating an annotated version with additional grouping information.
+#'
+#' @param arrow_lab A character string specifying the path to the arrow dataset of lab entries.
+#'
+#' @return A duckdb object with annotated lab entries, including an `entry_grp` column that groups entries based on a specified condition.
+#'
+#' @export
+#'
 #' @importFrom arrow to_duckdb open_dataset to_arrow write_ipc_file
 #' @importFrom dplyr mutate select if_else compute
 #' @importFrom dbplyr window_order
@@ -16,7 +25,17 @@ anno_entry <- function(arrow_lab){
     compute()
 }
 
-#' Annotate Report Groups
+#' Annotate Lab Report Entries
+#'
+#' This function processes a duckdb dataset of lab entries, adding annotations for report indicators, organization indicators, and material type indicators.
+#' It assumes that the dataset has been processed by the `anno_entry` function first.
+#'
+#' @param duck A duckdb dataset containing lab entries with an `entry_grp` column.
+#'
+#' @return A duckdb object with additional columns: `rpt_ind`, `org_ind`, and `mtyp_ind` for report, organization, and material type indicators respectively.
+#'
+#' @export
+#'
 #' @importFrom arrow to_duckdb open_dataset to_arrow write_ipc_file
 #' @importFrom dplyr mutate select if_else compute arrange
 #' @importFrom dbplyr window_order
@@ -38,18 +57,6 @@ anno_report <- function(duck){
     mutate(mtyp_ind = cumsum(mtyp_ind)) |>
     arrange(entry_grp, rpt_ind, org_ind, mtyp_ind) |>
     compute()
-
-  # duck |>
-  #   group_by(entry_grp) |>
-  #   window_order(rowid) |>
-  #   mutate(rpt_ind = if_else(Term == "DAT", Value == "RPT", 1, 0), .before = Term) |>
-  #   mutate(rpt_ind = cumsum(rpt_ind)) |>
-  #   mutate(org_ind = if_else(Term == "DAT", Value == "ORG", 1, 0), .before = Term) |>
-  #   mutate(org_ind = cumsum(org_ind)) |>
-  #   group_by(entry_grp, org_ind) |>
-  #   mutate(mtyp_ind = if_else(Term == "DAT", Value == "MTYP", 1, 0), .before = Term) |>
-  #   mutate(mtyp_ind = cumsum(mtyp_ind)) |>
-  #   compute()
 
 }
 

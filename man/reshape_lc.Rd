@@ -4,7 +4,10 @@
 \alias{reshape_lc}
 \title{Reshape Culture Labs}
 \usage{
-reshape_lc(ddb)
+reshape_lc(duck)
+}
+\arguments{
+\item{duck}{A DuckDB object containing laboratory data.}
 }
 \description{
 Reshape Culture Labs

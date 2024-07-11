@@ -6,6 +6,11 @@
 \usage{
 deid_head(arrow, save_crosswalk = TRUE)
 }
+\arguments{
+\item{arrow}{coherently parsed and PHI data}
+
+\item{save_crosswalk}{option to save crosswalk containing identifying mappings}
+}
 \description{
 Deid Head Files
 }

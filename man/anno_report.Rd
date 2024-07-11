@@ -2,10 +2,17 @@
 % Please edit documentation in R/anno.R
 \name{anno_report}
 \alias{anno_report}
-\title{Annotate Report Groups}
+\title{Annotate Lab Report Entries}
 \usage{
 anno_report(duck)
 }
+\arguments{
+\item{duck}{A duckdb dataset containing lab entries with an \code{entry_grp} column.}
+}
+\value{
+A duckdb object with additional columns: \code{rpt_ind}, \code{org_ind}, and \code{mtyp_ind} for report, organization, and material type indicators respectively.
+}
 \description{
-Annotate Report Groups
+This function processes a duckdb dataset of lab entries, adding annotations for report indicators, organization indicators, and material type indicators.
+It assumes that the dataset has been processed by the \code{anno_entry} function first.
 }

@@ -27,7 +27,6 @@ The first step for setting up the processing pipeline is organizing these files 
 ```{r setup}
 library(marsrap)
 library(dplyr)
-library(ggplot2)
 library(arrow)
 
 create_project(copy_files = TRUE)
@@ -276,10 +275,10 @@ test_mart_lb |>
   head(10) |> 
   knitr::kable()
   
-test_mart_lb |> 
-  ggplot(aes(val_num, Value, color = unit,  shape = mrn_h)) +
-  geom_point() +
-  labs(title = "Demo Blood Lab Result")
+# test_mart_lb |> 
+#   ggplot(aes(val_num, Value, color = unit,  shape = mrn_h)) +
+#   geom_point() +
+#   labs(title = "Demo Blood Lab Result")
 
   
 ```

@@ -1,26 +1,27 @@
 #' Reshape Blood Labs
+#' @param duck A DuckDB object containing laboratory data.
 #' @importFrom dplyr mutate select compute left_join distinct collect any_of
 #' @importFrom tidyr pivot_wider
 #' @export
-reshape_lb <- function(ddb){
+reshape_lb <- function(duck){
 
-  ddb <- filter(ddb, acc_type == "LAB")
+  duck <- filter(duck, acc_type == "LAB")
 
   lab_dat_base <-
-    ddb |>
+    duck |>
     filter(max(rpt_ind) == 0 & max(org_ind) == 0) |>
     select(!c(rpt_ind, org_ind, mtyp_ind, rowid, acc_type, src))
 
   lab_dat_rpt <-
-    ddb |>
+    duck |>
     filter(max(rpt_ind) == 1 & max(org_ind) == 0)
 
   lab_dat_org <-
-    ddb |>
+    duck |>
     filter(max(rpt_ind) == 0 & max(org_ind) == 1)
 
   lab_dat_both <-
-    ddb |>
+    duck |>
     filter(max(rpt_ind) == 1 & max(org_ind) == 1)
 
   list(base = lab_dat_base, rpt = lab_dat_rpt, org = lab_dat_org, both = lab_dat_both)
@@ -29,18 +30,19 @@ reshape_lb <- function(ddb){
 
 
 #' Reshape Culture Labs
+#' @param duck A DuckDB object containing laboratory data.
 #' @importFrom dplyr mutate select compute left_join distinct collect any_of
 #' @importFrom dbplyr window_order
 #' @importFrom tidyr pivot_wider fill
 #' @export
-reshape_lc <- function(ddb){
+reshape_lc <- function(duck){
 
-  # TODO: ddb is a grouped df already, but should not be
+  # TODO: duck is a grouped df already, but should not be
 
   lab_dat_rpt <-
-    ddb |>
+    duck |>
     filter(acc_type == "CULT") |>
-    # TODO: ddb is a grouped df already, but should not be
+    # TODO: duck is a grouped df already, but should not be
     # filter(max(rpt_ind) == 1, .by = entry_grp) |>
     filter(max(rpt_ind) == 1) |>
     select(-rpt_ind)

@@ -5,6 +5,7 @@
 #'
 #' @param duck A DuckDB object containing laboratory data.
 #' @param acc A data frame or tibble containing de-identified accession data.
+#' @param bat A data frame or tibble containing de-identified accession bat.
 #' @param head A data frame or tibble containing de-identified header data.
 #' @return A data frame or tibble with selected and processed laboratory data.
 #' @importFrom dplyr left_join select mutate distinct

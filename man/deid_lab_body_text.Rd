@@ -6,6 +6,9 @@
 \usage{
 deid_lab_body_text(duck)
 }
+\arguments{
+\item{duck}{duckdb object}
+}
 \description{
 To be completed
 }

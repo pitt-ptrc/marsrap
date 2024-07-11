@@ -6,6 +6,11 @@
 \usage{
 deid_lab_body_meta(arrow, crosswalk)
 }
+\arguments{
+\item{arrow}{coherently parsed and PHI data}
+
+\item{crosswalk}{crosswalk containing identifying mappings}
+}
 \description{
 Unlike other deid_**, here we parse first to get keys to join on.
 }

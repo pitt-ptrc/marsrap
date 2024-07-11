@@ -6,6 +6,11 @@
 \usage{
 deid_acc(arrow, crosswalk)
 }
+\arguments{
+\item{arrow}{coherently parsed and PHI data}
+
+\item{crosswalk}{crosswalk containing identifying mappings}
+}
 \description{
 Deid Accession Files
 }

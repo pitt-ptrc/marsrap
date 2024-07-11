@@ -50,7 +50,8 @@ read_outtxt <- function(out.txt, type) {
              date = as.Date(datetime),
              time = format(datetime, "%H:%M:%S"),
              bat_id = as.character(bat_id),
-             dob = as.Date(as.character(dob), format = "%Y%m%d")),
+             dob = as.Date(as.character(dob), format = "%Y%m%d"),
+             sex = as.character(sex)),
     acc = read_table(out.txt, acc_names) |>
       mutate(
         acc_date = ymd(acc_date),
@@ -79,6 +80,7 @@ read_outtxt <- function(out.txt, type) {
 #' @param dir The input directory containing the files to be processed.
 #' @param outdir The output directory where the processed files will be saved. Defaults to "data".
 #' @param format The format to save the processed data in. Possible values are "csv" and "arrow".
+#' @param .keep removes files in directory prepped
 #' @return Invisible NULL. This function is used for its side effects of reading, processing,
 #'         and saving data.
 #' @importFrom dplyr bind_rows
@@ -132,12 +134,25 @@ cleanup <- function(){
 
 }
 
+
+#' Save Data in Specified Format
+#'
+#' This function saves a given dataset (duck) into a specified directory and file format (either "arrow" or "csv").
+#'
+#' @param duck The dataset to be saved.
+#' @param dir_name A character string specifying the directory where the file will be saved. Default is "mart".
+#' @param file_name A character string specifying the name of the file to be saved.
+#' @param format A character vector specifying the format to save the file. Options are "arrow" and "csv". Default is "arrow".
+#'
+#' @return A character string representing the file path of the saved file.
+#'
 #' @export
-save_duck <- function(duck, dir_name = "mart", file_name, format = c("arrow", "csv")){
+#'
+save_duck <- function(duck, dir_name = "mart", file_name, format = c("arrow", "csv")) {
 
   format <- match.arg(format)
 
-  if (format == "arrow"){
+  if (format == "arrow") {
 
     file_name <- paste0(file_name, ".arrow")
     file_path <- file.path(dir_name, file_name)
@@ -148,7 +163,7 @@ save_duck <- function(duck, dir_name = "mart", file_name, format = c("arrow", "c
 
   } else {
 
-    file_name <- paste0(file_name, ".arrow")
+    file_name <- paste0(file_name, ".csv")
     file_path <- file.path(dir_name, file_name)
 
     duck |>

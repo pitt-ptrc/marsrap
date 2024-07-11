@@ -11,6 +11,8 @@ mart_lb(duck, acc, bat, head)
 
 \item{acc}{A data frame or tibble containing de-identified accession data.}
 
+\item{bat}{A data frame or tibble containing de-identified accession bat.}
+
 \item{head}{A data frame or tibble containing de-identified header data.}
 }
 \value{

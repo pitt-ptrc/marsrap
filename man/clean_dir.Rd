@@ -12,6 +12,8 @@ clean_dir(dir, outdir = "data", format = "arrow", .keep = FALSE)
 \item{outdir}{The output directory where the processed files will be saved. Defaults to "data".}
 
 \item{format}{The format to save the processed data in. Possible values are "csv" and "arrow".}
+
+\item{.keep}{removes files in directory prepped}
 }
 \value{
 Invisible NULL. This function is used for its side effects of reading, processing,

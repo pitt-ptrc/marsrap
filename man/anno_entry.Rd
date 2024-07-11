@@ -2,10 +2,16 @@
 % Please edit documentation in R/anno.R
 \name{anno_entry}
 \alias{anno_entry}
-\title{Annotate Entry Groups}
+\title{Annotate Lab Entries}
 \usage{
 anno_entry(arrow_lab)
 }
+\arguments{
+\item{arrow_lab}{A character string specifying the path to the arrow dataset of lab entries.}
+}
+\value{
+A duckdb object with annotated lab entries, including an \code{entry_grp} column that groups entries based on a specified condition.
+}
 \description{
-Annotate Entry Groups
+This function processes an arrow dataset of lab entries, creating an annotated version with additional grouping information.
 }
