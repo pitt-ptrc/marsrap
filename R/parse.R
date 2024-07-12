@@ -4,7 +4,7 @@
 #' and further processing the values into numeric and character categories.
 #'
 #' @param lab_dat_base A dataframe containing the base laboratory data with a column named 'Description'.
-#' @return A list containing three dataframes: `char` for character values, `num` for numeric values, and `err` for erroneous values.
+#' @return A list containing dataframes
 #' @importFrom dplyr filter mutate select any_of ends_with
 #' @importFrom stringr str_detect str_remove str_replace str_trim
 #' @importFrom tidyr separate
@@ -81,6 +81,7 @@ classify_and_extract <- function(data) {
       # Classify the val strings
       val_class = case_when(
         str_detect(val, "^(\\d+|\\d+\\.\\d+)$") ~ "num",
+        str_detect(val, ".*/.*") ~ "div",
         str_detect(val, "(>=|<=|<|>|\\+)") ~ "ineq",
         str_detect(val, ".*:.*") ~ "ratio",
         str_detect(val, "%") ~ "pct",
@@ -91,7 +92,6 @@ classify_and_extract <- function(data) {
       # Extract classified characters
       val_extr = case_when(
         val_class == "ineq" ~ sql("regexp_extract(val, '(>=|<=|<|>|\\+)', 0)"),
-        val_class == "ratio" ~ sql("regexp_extract(val, '.*:.*', 0)"),
         val_class == "pct" ~ sql("regexp_extract(val, '%', 0)"),
         val_class == "az" ~ sql("regexp_extract(val, '[A-Za-z]', 0)"),
         TRUE ~ NA_character_
@@ -109,7 +109,7 @@ classify_and_extract <- function(data) {
       # Convert to numeric if possible
       val_num = case_when(
         val_class == "num" ~ as.numeric(val),
-        val_class %in% c("ineq", "ratio", "pct") ~ as.numeric(val_num),
+        val_class %in% c("ineq", "pct") ~ as.numeric(val_num),
         TRUE ~ NA_real_
       ),
       .after = val
