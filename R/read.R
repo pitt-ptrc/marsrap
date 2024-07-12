@@ -55,8 +55,9 @@ read_outtxt <- function(out.txt, type) {
     acc = read_table(out.txt, acc_names) |>
       mutate(
         acc_date = ymd(acc_date),
-        acc_dt = as.POSIXct(paste(acc_date, acc_time))
-             ) |>
+        acc_dt = if_else(is.na(acc_date) | is.na(acc_time), NA, paste(acc_date, acc_time)),
+        acc_dt = as.POSIXct(acc_dt)
+      ) |>
       select(-acc_time, -acc_date),
     bat = read_table(out.txt, bat_names) |>
       mutate(bat_id = as.character(bat_id)) |>
