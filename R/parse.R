@@ -15,7 +15,6 @@
 parse_lb_base <- function(lab_dat_base){
 
   lab_dat_base |>
-    filter(!str_detect(Description, "PTRC")) |>
     parse_semicolon() |>
     separate_duckdb(result, into = c("val", "unit", "range", "note", "rpt_status"), sep = ",") |>
     classify_and_extract() |>
@@ -23,9 +22,11 @@ parse_lb_base <- function(lab_dat_base){
 
 }
 
+
 parse_lc_sens <- function(lc_sens){
   lc_sens |>
     separate_duckdb(Description, into = c("result", "sens"), sep = " ~ ") |>
+    mutate(sens = if_else(!str_detect(Description, "~|,|<|>"), result, sens)) |>
     separate_duckdb(result, into = c("val", "unit", "range", "note", "rpt_status"), sep = ",") |>
     classify_and_extract() |>
     select(entry_grp, org, mtyp, Value, val, val_num, val_extr, sens, ends_with("_h"))
@@ -82,10 +83,11 @@ classify_and_extract <- function(data) {
       val_class = case_when(
         str_detect(val, "^(\\d+|\\d+\\.\\d+)$") ~ "num",
         str_detect(val, ".*/.*") ~ "div",
+        str_detect(val, "([<>]=?|!=)\\d+:\\d+") ~ "mix", # eg. "<1:1,,,,F"
         str_detect(val, "(>=|<=|<|>|\\+)") ~ "ineq",
         str_detect(val, ".*:.*") ~ "ratio",
-        str_detect(val, "%") ~ "pct",
-        str_detect(val, "[A-Za-z]") ~ "az",
+        str_detect(val, "\\d+%") ~ "pct",
+        str_detect(val, "^%?[A-Za-z]") ~ "az", # optional leading "%"
         TRUE ~ "other"
       ),
 
@@ -93,7 +95,7 @@ classify_and_extract <- function(data) {
       val_extr = case_when(
         val_class == "ineq" ~ sql("regexp_extract(val, '(>=|<=|<|>|\\+)', 0)"),
         val_class == "pct" ~ sql("regexp_extract(val, '%', 0)"),
-        val_class == "az" ~ sql("regexp_extract(val, '[A-Za-z]', 0)"),
+        # val_class == "az" ~ sql("regexp_extract(val, '[A-Za-z]', 0)"),
         TRUE ~ NA_character_
       ),
 
@@ -102,16 +104,17 @@ classify_and_extract <- function(data) {
         val_class == "ineq" ~ sql("regexp_replace(val, '(>=|<=|<|>|\\+)', '')"),
         val_class == "ratio" ~ sql("regexp_replace(val, '.*:.*', '')"),
         val_class == "pct" ~ sql("regexp_replace(val, '%', '')"),
-        val_class == "az" ~ sql("regexp_replace(val, '[A-Za-z]', '')"),
-        TRUE ~ val
+        val_class == "num" ~ val,
+        TRUE ~ NA_character_
       ),
 
       # Convert to numeric if possible
-      val_num = case_when(
-        val_class == "num" ~ as.numeric(val),
-        val_class %in% c("ineq", "pct") ~ as.numeric(val_num),
-        TRUE ~ NA_real_
-      ),
+      # val_num = case_when(
+      #   val_class == "num" ~ as.numeric(val),
+      #   val_class %in% c("ineq", "pct") ~ as.numeric(val_num),
+      #   TRUE ~ NA_real_
+      # ),
+      # val_num = as.numeric(val_num),
       .after = val
     )
 }
