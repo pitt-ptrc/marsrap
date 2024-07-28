@@ -140,11 +140,15 @@ parse_csv_to_arrow <- function(base_dir = "raw", sub_dir) {
       # mutate(acc_dt = paste(acc_date, acc_time, recycle0 = TRUE)) |>
       mutate(acc_dt = sql("regexp_extract(Description, '^\\d{8} \\d{2}:\\d{2}')")) |>
       mutate(acc_id = sql("regexp_extract(Description, '\\d{13}')")) |>
+      # mutate(hosp = sql("regexp_extract(Description, '[^;]+$')")) |>
+      # mutate(dept_code = sql("regexp_extract(Description, '(\\S+)\\s*\\S+$')")) |>
+      mutate(hosp_info = sql("regexp_extract(Description, '(\\S+)\\s+\\S+\\s*;\\S+$')")) |>
+      mutate(hosp_info = sql("regexp_replace(hosp_info, '\\d{6}', '')")) |>
       mutate(acc_id_h = md5(acc_id)) |>
       mutate(acc_id_h = str_sub(acc_id_h, end = 6)) |>
       mutate(acc_dt = if_else(acc_dt == "", NA, sql("strptime(acc_dt, '%Y%m%d %H:%M')"))) |>
       mutate(acc_dt_s = acc_dt + to_days(date_shift)) |>
-      select(entry_grp, ends_with("_h"), ends_with("_s"))
+      select(entry_grp, ends_with("_h"), ends_with("_s"), hosp_info)
 
     lab_bat_deid <-
       lab_head_parse |>

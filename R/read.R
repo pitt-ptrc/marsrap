@@ -148,6 +148,7 @@ cleanup <- function(){
 #' @return A character string representing the file path of the saved file.
 #'
 #' @export
+#' @importFrom arrow write_csv_arrow write_ipc_file
 #'
 save_duck <- function(duck, dir_name = "mart", file_name, format = c("arrow", "csv")) {
 
@@ -158,17 +159,30 @@ save_duck <- function(duck, dir_name = "mart", file_name, format = c("arrow", "c
     file_name <- paste0(file_name, ".arrow")
     file_path <- file.path(dir_name, file_name)
 
-    duck |>
-      to_arrow() |>
-      write_ipc_file(file_path)
+    # TODO: investigate why `collect()` is necessary for `deid_lc_rpt`
+    # and `to_arrow()` aborts session
 
-  } else {
+    if (file_name == "deid_lc_rpt"){
+
+      duck |>
+        collect() |>
+        write_ipc_file(sink = file_path)
+
+    } else {
+
+      duck |>
+        to_arrow() |>
+        write_ipc_file(file_path)
+    }
+
+  } else if (format == "csv") {
 
     file_name <- paste0(file_name, ".csv")
     file_path <- file.path(dir_name, file_name)
 
     duck |>
-      write_csv(path = file_path)
+      to_arrow() |>
+      write_csv_arrow(sink = file_path)
   }
 
   return(file_path)

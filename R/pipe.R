@@ -11,7 +11,7 @@
 #' @param salt A numeric value used for anonymization purposes. Default is 123.
 #'
 #' @return A list containing file paths of saved processed data.
-#' @importFrom dplyr bind_rows collect
+#' @importFrom dplyr bind_rows collect union_all
 #' @export
 #'
 main_pipeline <- function(dir, type = "raw", data_type = "labs", clean = TRUE, save = c(NULL, "arrow", "csv"), salt = 123){
@@ -29,25 +29,27 @@ main_pipeline <- function(dir, type = "raw", data_type = "labs", clean = TRUE, s
     list_lb <- parse_csv_to_arrow(base_dir = dir, sub_dir = "lb")
 
 
-    # head$head <- union_all(
-    #   list_lb$lab_head_deid |>  mutate(rec_type = "LAB"),
-    #   list_lc$lab_head_deid |>  mutate(rec_type = "CULT")
-    # )
-    #
-    # head$cw <- union_all(
-    #   list_lb$lab_crosswalk %>% mutate(rec_type = "LAB"),
-    #   list_lc$lab_crosswalk %>% mutate(rec_type = "CULT")
-    # )
-    #
-    # acc <- union_all(
-    #   list_lb$lab_acc_deid %>% mutate(rec_type = "LAB"),
-    #   list_lc$lab_acc_deid %>% mutate(rec_type = "CULT")
-    # )
-    #
-    # bat <- union_all(
-    #   list_lb$lab_bat_deid %>% mutate(rec_type = "LAB"),
-    #   list_lc$lab_bat_deid %>% mutate(rec_type = "CULT")
-    # )
+    hd <- union_all(
+      list_lb$lab_head_deid |> mutate(rec_type = "LAB"),
+      list_lc$lab_head_deid |> mutate(rec_type = "CULT")
+    )
+
+    cw <- union_all(
+      list_lb$lab_crosswalk %>% mutate(rec_type = "LAB"),
+      list_lc$lab_crosswalk %>% mutate(rec_type = "CULT")
+    )
+
+    head <- list(head = hd, cw = cw)
+
+    acc <- union_all(
+      list_lb$lab_acc_deid %>% mutate(rec_type = "LAB"),
+      list_lc$lab_acc_deid %>% mutate(rec_type = "CULT")
+    )
+
+    bat <- union_all(
+      list_lb$lab_bat_deid %>% mutate(rec_type = "LAB"),
+      list_lc$lab_bat_deid %>% mutate(rec_type = "CULT")
+    )
 
     lb <- list_lb$lab_dat_deid |>
       mutate(acc_type = "LAB") |>
@@ -70,7 +72,6 @@ main_pipeline <- function(dir, type = "raw", data_type = "labs", clean = TRUE, s
 
     lab <- list(lc_rpt = lc_rpt, lc_sens = lc_sens, lb = lb)
 
-    # return(lab)
 
 
   } else if (type == "raw"){
@@ -104,18 +105,16 @@ main_pipeline <- function(dir, type = "raw", data_type = "labs", clean = TRUE, s
   if(!is.null(save)){
     option <- match.arg(save, c("arrow", "csv"))
 
-    # save_duck(head$head, dir_name = "deid", file_name = "deid_head", format = option)
-    # save_duck(acc, dir_name = "deid", file_name = "deid_acc", format = option)
-    # save_duck(bat, dir_name = "deid", file_name = "deid_bat", format = option)
+    save_duck(head$cw, dir_name = "data", file_name = "crosswalk", format = option)
 
-
+    save_duck(head$head, dir_name = "deid", file_name = "deid_head", format = option)
+    save_duck(acc, dir_name = "deid", file_name = "deid_acc", format = option)
+    save_duck(bat, dir_name = "deid", file_name = "deid_bat", format = option)
 
     save_duck(lab$lb, dir_name = "deid", file_name = "deid_lb", format = option)
     save_duck(lab$lc_sens, dir_name = "deid", file_name = "deid_lc_sens", format = option)
-    # TODO: investigate why `collect()` is necessary, and `to_arrow()` in `save_duck()` aborts
-    lab$lc_rpt |>
-      collect() |>
-      write_ipc_file(sink = file.path("deid", "deid_lc_rpt.arrow"))
+    save_duck(lab$lc_rpt, dir_name = "deid", file_name = "deid_lc_rpt", format = option)
+
 
   }
 
