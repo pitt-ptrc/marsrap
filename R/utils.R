@@ -34,7 +34,8 @@ named_group_split <- function(.tbl, ...) {
 #' @param len The length of the hash to be used. Defaults to 6.
 #' @param salt An optional salt to be appended to the column values before hashing. Defaults to NULL.
 #' @param new_name An optional new name for the hashed column. Defaults to the original column name with "_h" appended.
-#' @importFrom dplyr mutate sql
+#' @importFrom dplyr mutate
+#' @importFrom dbplyr sql
 #' @importFrom glue glue
 #' @importFrom stringr str_c str_sub
 #' @importFrom rlang ensym as_string sym
@@ -75,7 +76,8 @@ ddb_ds_get <- function(ddb, salt = NULL) {
 #' @param ddb A DuckDB connection or table.
 #' @param col The name of the column containing dates to be shifted.
 #' @param new_name An optional new name for the shifted date column. Defaults to the original column name with "_s" appended.
-#' @importFrom dplyr mutate sql
+#' @importFrom dplyr mutate
+#' @importFrom dbplyr sql
 #' @importFrom glue glue
 #' @importFrom rlang ensym as_string sym
 #' @return A modified DuckDB table with the date-shifted column added.
@@ -98,7 +100,8 @@ ddb_col_shift <- function(ddb, col, new_name = NULL){
 #' @param ddb A DuckDB connection or table.
 #' @param col The name of the column containing sensitive information to be redacted.
 #' @param new_name An optional new name for the redacted column. Defaults to the original column name with "_r" appended.
-#' @importFrom dplyr mutate sql
+#' @importFrom dplyr mutate
+#' @importFrom dbplyr sql
 #' @importFrom glue glue
 #' @importFrom stringr str_c
 #' @importFrom rlang ensym as_string sym

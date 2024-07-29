@@ -1,19 +1,17 @@
-#' Join and Process Laboratory Data
-#'
-#' This function joins de-identified accession and header data with a DuckDB object containing laboratory data,
-#' selects specific columns, and processes the data.
+#' Join and present prepared Blood Laboratory Data
 #'
 #' @param duck A DuckDB object containing laboratory data.
 #' @param acc A data frame or tibble containing de-identified accession data.
 #' @param bat A data frame or tibble containing de-identified accession bat.
 #' @param head A data frame or tibble containing de-identified header data.
+#' @param .type Option for non-standard data processing. Only RD supported.
 #' @return A data frame or tibble with selected and processed laboratory data.
 #' @importFrom dplyr left_join select mutate distinct
 #' @importFrom stringr str_sub
 #' @export
-mart_lb <- function(duck, acc, bat, head) {
+mart_lb <- function(duck, acc, bat, head, .type = NULL) {
 
-  if(type == "RD"){
+  if(!is.null(.type) && .type == "RD"){
 
     duck |>
       left_join(acc |> select(entry_grp, acc_num_h, acc_dt_s)) |>
@@ -30,10 +28,20 @@ mart_lb <- function(duck, acc, bat, head) {
   }
 }
 
+#' Join and present prepared Sensitivity Laboratory Data
+#'
+#' @param duck A DuckDB object containing laboratory data.
+#' @param acc A data frame or tibble containing de-identified accession data.
+#' @param bat A data frame or tibble containing de-identified accession bat.
+#' @param head A data frame or tibble containing de-identified header data.
+#' @param .type Option for non-standard data processing. Only RD supported.
+#' @return A data frame or tibble with selected and processed laboratory data.
+#' @importFrom dplyr left_join select mutate distinct
+#' @importFrom stringr str_sub
+#' @export
+mart_lc_sens <- function(duck, acc, bat, head, .type = NULL){
 
-mart_lc_sens <- function(duck, acc, bat, head){
-
-  if(type == "RD"){
+  if(!is.null(.type) && .type == "RD"){
 
     duck |>
       left_join(acc |> select(entry_grp, acc_num_h, acc_dt_s)) |>
@@ -50,9 +58,9 @@ mart_lc_sens <- function(duck, acc, bat, head){
 
 }
 
-mart_lc_rpt <- function(duck, acc, bat, head){
+mart_lc_rpt <- function(duck, acc, bat, head, .type = NULL){
 
-  if(type == "RD"){
+  if(!is.null(.type) && .type == "RD"){
 
     duck |>
       left_join(acc |> select(entry_grp, acc_num_h, acc_dt_s)) |>
