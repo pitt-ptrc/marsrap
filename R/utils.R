@@ -40,6 +40,7 @@ named_group_split <- function(.tbl, ...) {
 #' @importFrom stringr str_c str_sub
 #' @importFrom rlang ensym as_string sym
 #' @return A modified DuckDB table with the hashed column added.
+#' @export
 ddb_col_hash <- function(ddb, col, len = 6, salt = NULL, new_name = NULL) {
   col_sym <- ensym(col)
   col_name <- as_string(col_sym)
@@ -62,6 +63,7 @@ ddb_col_hash <- function(ddb, col, len = 6, salt = NULL, new_name = NULL) {
 #' @importFrom dplyr mutate select
 #' @importFrom rlang sym
 #' @return A modified DuckDB table with the date shift column added.
+#' @export
 ddb_ds_get <- function(ddb, salt = NULL) {
   ddb |>
     mutate(mrn_int = as.integer(mrn)) |>
@@ -81,6 +83,7 @@ ddb_ds_get <- function(ddb, salt = NULL) {
 #' @importFrom glue glue
 #' @importFrom rlang ensym as_string sym
 #' @return A modified DuckDB table with the date-shifted column added.
+#' @export
 ddb_col_shift <- function(ddb, col, new_name = NULL){
   col_sym <- ensym(col)
   col_name <- as_string(col_sym)
@@ -106,6 +109,7 @@ ddb_col_shift <- function(ddb, col, new_name = NULL){
 #' @importFrom stringr str_c
 #' @importFrom rlang ensym as_string sym
 #' @return A modified DuckDB table with the redacted column added.
+#' @export
 ddb_col_redact <- function(ddb, col, new_name = NULL){
   col_sym <- ensym(col)
   col_name <- as_string(col_sym)
