@@ -115,9 +115,10 @@ ddb_col_redact <- function(ddb, col, new_name = NULL){
   col_name <- as_string(col_sym)
   new_col_name <- if (is.null(new_name)) paste0(col_name, "_r") else new_name
 
-  date_pat <- "\\b\\d{4}[-/]\\d{2}[-/]\\d{2}\\b|\\b\\d{2}[-/]\\d{2}[-/]\\d{4}\\b"
+  date_pat <- "\\b\\d{4}[-/]\\d{2}[-/]\\d{2}\\b|\\b\\d{2}[-/]\\d{2}[-/]\\d{4}\\b|\\d{6}|\\b\\d{1,2}/\\d{1,2}/\\d{2}\\b"
   acc_num_pat <- "\\b[A-Za-z]+\\d+\\b"
   mrn_pat <- "\\b\\d{9}\\b"
+  person_pat <- "back by [A-Z ]+"
 
   pat <- str_c(date_pat, acc_num_pat, mrn_pat, sep = "|")
   query <- sql(glue::glue("regexp_replace({col}, '{pat}', 'PTRC-RDCT', 'g')"))

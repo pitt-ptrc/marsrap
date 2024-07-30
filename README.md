@@ -32,12 +32,12 @@ library(marsrap)
 
 # Helper function for demostration
 create_project(copy_files = TRUE)
-#> Base directory already exists: /Users/matt/repos/marsrap/raw
-#> Subdirectory already exists: /Users/matt/repos/marsrap/raw/lb
-#> Subdirectory already exists: /Users/matt/repos/marsrap/raw/lc
-#> Subdirectory already exists: /Users/matt/repos/marsrap/raw/mpax
-#> Subdirectory already exists: /Users/matt/repos/marsrap/raw/charges
-#> Subdirectory already exists: /Users/matt/repos/marsrap/raw/icd
+#> Created base directory: /Users/matt/repos/marsrap/raw
+#> Created subdirectory: /Users/matt/repos/marsrap/raw/lb
+#> Created subdirectory: /Users/matt/repos/marsrap/raw/lc
+#> Created subdirectory: /Users/matt/repos/marsrap/raw/mpax
+#> Created subdirectory: /Users/matt/repos/marsrap/raw/charges
+#> Created subdirectory: /Users/matt/repos/marsrap/raw/icd
 #> Copied fake_bar_bloodlab.out to /Users/matt/repos/marsrap/raw/lb
 #> Copied fake_bar_culturelab.out to /Users/matt/repos/marsrap/raw/lc
 #> Directory structure setup complete.
@@ -53,71 +53,34 @@ result_paths <- main_pipeline("raw", clean = FALSE, save = "arrow")
 #> This warning is displayed once every 8 hours.
 #> Warning: ORDER BY is ignored in subqueries without LIMIT
 #> ℹ Do you need to move arrange() later in the pipeline or use window_order() instead?
-#> Joining with `by = join_by(acc_id_h, acc_num_h)`
-#> Joining with `by = join_by(bat_id_h)`
-#> Joining with `by = join_by(acc_id_h, bat_id_h)`
-#> Joining with `by = join_by(acc_id_h, acc_num_h)`
-#> Joining with `by = join_by(bat_id_h)`
-#> Joining with `by = join_by(acc_id_h, bat_id_h)`
-#> Adding missing grouping variables: `entry_grp`
-#> Joining with `by = join_by(acc_id_h, acc_num_h)`
-#> Joining with `by = join_by(bat_id_h)`
-#> Joining with `by = join_by(acc_id_h, bat_id_h)`
-#> Adding missing grouping variables: `entry_grp`
-#> Warning: ORDER BY is ignored in subqueries without LIMIT
-#> ℹ Do you need to move arrange() later in the pipeline or use window_order() instead?
 
 marts <- lapply(result_paths, arrow::read_ipc_file)
 
 marts
-#> $path_lc_rpt
-#> # A tibble: 17 × 13
-#>    entry_grp Value Description  acc_id_h acc_num_h bat_id_h rpt      
-#>        <dbl> <chr> <chr>        <chr>    <chr>     <chr>    <chr>    
-#>  1         4 GS    RARE YST     e2eee5   9a6a67    7aa382   FNL ,,,,F
-#>  2         4 SREQ  TRACH        e2eee5   9a6a67    7aa382   FNL ,,,,F
-#>  3         4 CULT  MOD PSAR     e2eee5   9a6a67    7aa382   FNL ,,,,F
-#>  4         4 SDES  SPUT         e2eee5   9a6a67    7aa382   FNL ,,,,F
-#>  5         4 GS    MANY GPR     e2eee5   9a6a67    7aa382   FNL ,,,,F
-#>  6         4 CULT  MOD NRSF     e2eee5   9a6a67    7aa382   FNL ,,,,F
-#>  7         4 GS    MOD WBCS     e2eee5   9a6a67    7aa382   FNL ,,,,F
-#>  8         4 CULT  MOD PSAR NO2 e2eee5   9a6a67    7aa382   FNL ,,,,F
-#>  9         5 CNT   CC100 CML    496dec   fe884c    9efe18   FNL ,,,,F
-#> 10         5 SDES  FOLEY        496dec   fe884c    9efe18   FNL ,,,,F
-#> 11         5 CULT  CALB         496dec   fe884c    9efe18   FNL ,,,,F
-#> 12         6 CULT  NMRS2        496dec   d75962    d2a2b3   FNL ,,,,F
-#> 13         6 SDES  NASAL        496dec   d75962    d2a2b3   FNL ,,,,F
-#> 14         7 SDES  NASAL        496dec   d75962    349e98   PENDING  
-#> 15         7 CULT  NMRS1        496dec   d75962    349e98   PENDING  
-#> 16         8 SDES  NASAL        496dec   d75962    c2eb3e   PENDING  
-#> 17         8 CULT  PENDING      496dec   d75962    c2eb3e   PENDING  
-#> # ℹ 6 more variables: acc_dt_s <dttm>, bat_type <chr>, bat_dt_s <dttm>,
-#> #   mrn_h <chr>, dob_s <date>, sex <chr>
-#> 
-#> $path_lc_sens
-#> # A tibble: 2 × 19
-#>   entry_grp org_ind mtyp_ind org      mtyp  Value val     val_num val_extr sens 
-#>       <dbl>   <dbl>    <dbl> <chr>    <chr> <chr> <chr>     <dbl> <chr>    <chr>
-#> 1         4       1        1 MOD PSAR MIC03 AMIK  "<=16 "      16 <=       SS   
-#> 2         4       1        1 MOD PSAR MIC03 AZTR  "<=4 "        4 <=       SS   
-#> # ℹ 9 more variables: acc_id_h <chr>, acc_num_h <chr>, bat_id_h <chr>,
-#> #   acc_dt_s <dttm>, bat_type <chr>, bat_dt_s <dttm>, mrn_h <chr>,
-#> #   dob_s <date>, sex <chr>
-#> 
-#> $path_lb
-#> # A tibble: 30 × 10
-#>    entry_grp Value  val   val_num unit    range     acc_dt_s            mrn_h 
-#>        <dbl> <chr>  <chr>   <dbl> <chr>   <chr>     <dttm>              <chr> 
-#>  1         2 PHVP   7.24     7.24 ""      7.32-7.43 2002-08-23 01:29:00 c58017
-#>  2         2 PHVP   7.24     7.24 ""      7.32-7.43 2002-08-23 01:29:00 c58017
-#>  3         3 GLU14  122    122    "mg/dL" 70-99     2018-01-15 04:37:00 bbae37
-#>  4         2 PCO2VP 71      71    "mm Hg" 41-51     2002-08-23 01:29:00 c58017
-#>  5         2 PCO2VP 71      71    "mm Hg" 41-51     2002-08-23 01:29:00 c58017
-#>  6         3 BUN14  60      60    "mg/dL" 8-26      2018-01-15 04:37:00 bbae37
-#>  7         2 PO2VP  46      46    "mm Hg" 30-50     2002-08-23 01:29:00 c58017
-#>  8         2 PO2VP  46      46    "mm Hg" 30-50     2002-08-23 01:29:00 c58017
-#>  9         3 CREA14 0.9      0.9  "mg/dL" 0.5-1.4   2018-01-15 04:37:00 bbae37
-#> 10         2 HCO3VP 30      30    "mEq/L" 19-25     2002-08-23 01:29:00 c58017
-#> # ℹ 20 more rows
-#> # ℹ 2 more variables: dob_s <date>, sex <chr>
+#> [[1]]
+#> # A tibble: 20 × 13
+#>    src         entry_grp org_ind mtyp_ind Term  Value Description rowid acc_type
+#>    <chr>           <dbl>   <dbl>    <dbl> <chr> <chr> <chr>       <int> <chr>   
+#>  1 fake_bar_c…         7       0        0 DAT   CULT  NMRS1          45 CULT    
+#>  2 fake_bar_c…         5       0        0 DAT   CULT  CALB           29 CULT    
+#>  3 fake_bar_c…         7       0        0 DAT   SDES  NASAL          43 CULT    
+#>  4 fake_bar_c…         5       0        0 DAT   CNT   CC100 CML      27 CULT    
+#>  5 fake_bar_c…         9       0        0 DAT   CULT  SCNG AEANBT    63 CULT    
+#>  6 fake_bar_c…         9       0        0 DAT   SREQ  R PICC         61 CULT    
+#>  7 fake_bar_c…         9       0        0 DAT   SREQ  POSI           61 CULT    
+#>  8 fake_bar_c…         9       0        0 DAT   SREQ  RCRB           61 CULT    
+#>  9 fake_bar_c…         9       0        0 DAT   SDES  BLOOD          59 CULT    
+#> 10 fake_bar_c…         6       0        0 DAT   CULT  NMRS2          37 CULT    
+#> 11 fake_bar_c…         6       0        0 DAT   SDES  NASAL          35 CULT    
+#> 12 fake_bar_c…         5       0        0 DAT   SDES  FOLEY          25 CULT    
+#> 13 fake_bar_c…         4       0        0 DAT   CULT  MOD PSAR        9 CULT    
+#> 14 fake_bar_c…         4       0        0 DAT   CULT  MOD PSAR N…     9 CULT    
+#> 15 fake_bar_c…         4       0        0 DAT   CULT  MOD NRSF        9 CULT    
+#> 16 fake_bar_c…         4       0        0 DAT   GS    MOD WBCS        7 CULT    
+#> 17 fake_bar_c…         4       0        0 DAT   GS    MANY GPR        7 CULT    
+#> 18 fake_bar_c…         4       0        0 DAT   GS    RARE YST        7 CULT    
+#> 19 fake_bar_c…         4       0        0 DAT   SREQ  TRACH           5 CULT    
+#> 20 fake_bar_c…         4       0        0 DAT   SDES  SPUT            3 CULT    
+#> # ℹ 4 more variables: acc_id_h <chr>, acc_num_h <chr>, bat_id_h <chr>,
+#> #   rpt <chr>
 ```

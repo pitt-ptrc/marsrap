@@ -90,12 +90,6 @@ main_pipeline <- function(dir, type = "raw", data_type = "labs", clean = TRUE, s
     acc <- deid_acc("data/acc.arrow", crosswalk = "data/crosswalk.arrow")
     bat <- deid_bat("data/bat.arrow", crosswalk = "data/crosswalk.arrow")
 
-    # save
-    if(!is.null(save)){
-      option <- match.arg(save, c("arrow", "csv"))
-
-    }
-
     # create deid lab file
     lab <- deid_body("data/anno_body.arrow", "data/crosswalk.arrow", type = "lab")
 
