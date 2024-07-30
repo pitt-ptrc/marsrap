@@ -120,7 +120,7 @@ ddb_col_redact <- function(ddb, col, new_name = NULL){
   mrn_pat <- "\\b\\d{9}\\b"
   person_pat <- "back by [A-Z ]+"
 
-  pat <- str_c(date_pat, acc_num_pat, mrn_pat, sep = "|")
+  pat <- str_c(date_pat, acc_num_pat, mrn_pat, person_pat, sep = "|")
   query <- sql(glue::glue("regexp_replace({col}, '{pat}', 'PTRC-RDCT', 'g')"))
 
   ddb |>
