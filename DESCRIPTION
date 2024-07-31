@@ -19,6 +19,7 @@ Imports:
     dbplyr,
     dplyr,
     duckdb,
+    glue,
     lubridate,
     purrr,
     readr,

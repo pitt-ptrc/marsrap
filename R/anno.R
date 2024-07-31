@@ -37,7 +37,7 @@ anno_entry <- function(arrow_lab){
 #' @export
 #'
 #' @importFrom arrow to_duckdb open_dataset to_arrow write_ipc_file
-#' @importFrom dplyr mutate select if_else compute arrange
+#' @importFrom dplyr mutate select if_else compute arrange ungroup
 #' @importFrom dbplyr window_order
 anno_report <- function(duck){
 
@@ -56,7 +56,8 @@ anno_report <- function(duck){
     mutate(mtyp_ind = if_else(Term == "DAT" & Value == "MTYP", 1, 0), .before = Term) |>
     mutate(mtyp_ind = cumsum(mtyp_ind)) |>
     arrange(entry_grp, rpt_ind, org_ind, mtyp_ind) |>
-    compute()
+    compute() |>
+    ungroup(org_ind)
 
 }
 

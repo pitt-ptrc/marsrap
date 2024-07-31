@@ -10,7 +10,7 @@ parse_lb_base(lab_dat_base)
 \item{lab_dat_base}{A dataframe containing the base laboratory data with a column named 'Description'.}
 }
 \value{
-A list containing three dataframes: \code{char} for character values, \code{num} for numeric values, and \code{err} for erroneous values.
+A list containing dataframes
 }
 \description{
 This function parses laboratory data, separating descriptions into multiple components

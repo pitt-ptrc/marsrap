@@ -250,7 +250,7 @@ deid_lab_body_data <- function(duck){
         Description,
         "^DR | DR |Dr |Dr\\.|DR\\.|MD$|MD.|^NP | NP|nurse|Nurse|NURSE"
       ),
-      "PTRC identity removal",
+      "PTRC removal - identity",
       Description
     )) |>
     # screen numbers
@@ -259,7 +259,7 @@ deid_lab_body_data <- function(duck){
         Description,
         "\\d{10}|\\d{3}\\-\\d{3}\\-\\d{4}|\\(\\d{3}\\)\\s\\d{3}\\-\\d{4}|fax|FAX"
       ),
-      "PTRC contact removal",
+      "PTRC removal - contact",
       Description
     )) |>
     # screen date
@@ -269,13 +269,19 @@ deid_lab_body_data <- function(duck){
         Description,
         "\\d\\/\\d*\\/\\d|\\d\\-\\d*\\-\\d|\\d{2}\\.\\d{2}\\.\\d{4}"
       ),
-      "PTRC date removal",
+      "PTRC removal - date",
       Description
     )) |>
     # screen fields
     mutate(Description = if_else(
       str_detect(Value, "RCVB|RCVC|RCDT|FAX"),
-      "PTRC data type removal",
+      "PTRC removal - data type",
+      Description
+    )) |>
+    # long DAT text
+    mutate(Description = if_else(
+      str_length(Description) > 40,
+      "PTRC removal - free text",
       Description
     ))
 
