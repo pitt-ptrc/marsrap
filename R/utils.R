@@ -23,8 +23,6 @@ named_group_split <- function(.tbl, ...) {
     rlang::set_names(names)
 }
 
-
-
 #' Generate a Hashed Column in a DuckDB Table
 #'
 #' This function adds a new column to a DuckDB table with hashed values based on an existing column.
@@ -49,7 +47,11 @@ ddb_col_hash <- function(ddb, col, len = 6, salt = NULL, new_name = NULL) {
   query <- sql(glue::glue("md5({col})"))
 
   ddb |>
-    mutate(!!sym(col) := str_c(!!sym(col), salt)) |>
+    mutate(
+      !!sym(col) := case_when(
+        is.na(!!sym(col)) ~ NA_character_,
+        TRUE ~ str_c(!!sym(col), salt)
+      )) |>
     mutate(!!sym(new_col_name) := !!sql(query)) |>
     mutate(!!sym(new_col_name) := str_sub(!!sym(new_col_name), 1, len))
 }
