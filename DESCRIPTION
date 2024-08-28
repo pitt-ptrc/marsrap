@@ -29,3 +29,6 @@ Imports:
     tidyr
 URL: https://github.com/pitt-ptrc/marsrap
 BugReports: https://github.com/pitt-ptrc/marsrap/issues
+Depends: 
+    R (>= 2.10)
+LazyData: true
